@@ -1,0 +1,14 @@
+name: AutoMiner
+main: com.Danielvd.AutoMiner.AutoMiner
+version: 1.0.1
+commands:
+  am:
+    description: Main AutoMiner command
+    usage: /am
+permissions:
+  AutoMiner.main:
+    description: Permission for showing available commands
+    default: op
+  AutoMiner.miner:
+    description: Permission for creating and deleting miners
+    default: op
