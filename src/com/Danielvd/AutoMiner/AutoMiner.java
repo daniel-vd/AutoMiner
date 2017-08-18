@@ -1,9 +1,5 @@
 package com.Danielvd.AutoMiner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Server;
@@ -21,6 +17,7 @@ import com.Danielvd.AutoMiner.mining.PlayerMiner;
 import com.Danielvd.AutoMiner.utils.Metrics;
 import com.Danielvd.AutoMiner.utils.Updater;
 
+import de.robotricker.transportpipes.api.PipeAPI;
 import net.md_5.bungee.api.ChatColor;
 
 public class AutoMiner extends JavaPlugin implements CommandExecutor {
@@ -38,6 +35,13 @@ public class AutoMiner extends JavaPlugin implements CommandExecutor {
 		getCommand("am").setExecutor(this);
 		
 		new Metrics(this);
+		
+
+		if(getServer().getPluginManager().getPlugin("TransportPipes") != null) {
+			console.sendMessage(ChatColor.RED + "pipes is on");
+		} else {
+			console.sendMessage(ChatColor.RED + "pipes is off");
+		}
 		
 		//Show some text in console
         getServer().getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
@@ -69,7 +73,7 @@ public class AutoMiner extends JavaPlugin implements CommandExecutor {
 							if(sender.hasPermission("AutoMiner.miner") || sender.isOp()){
 								Block block = player.getTargetBlock(null, 5);
 								
-								if (block.getType() == Material.AIR) {
+								if (block.getType() == Material.AIR || block.getType() == Material.WATER || block.getType() == Material.LAVA) {
 									player.sendMessage(ChatColor.RED + "Make sure to look at a valid block!");
 									return true;
 								}

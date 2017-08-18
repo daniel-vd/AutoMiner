@@ -7,5 +7,6 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/vandi/Desktop/Test%20server/bukkit-1.12-R0.1-20170704.105512-44-javadoc%20(1).jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/vandi/Desktop/Test server/plugins/transportpipes.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
