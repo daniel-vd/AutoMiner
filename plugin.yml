@@ -1,6 +1,6 @@
 name: AutoMiner
 main: com.Danielvd.AutoMiner.AutoMiner
-version: 1.0.1
+version: 1.1.1
 commands:
   am:
     description: Main AutoMiner command
@@ -12,3 +12,4 @@ permissions:
   AutoMiner.miner:
     description: Permission for creating and deleting miners
     default: op
+softdepend: [TransportPipes]
