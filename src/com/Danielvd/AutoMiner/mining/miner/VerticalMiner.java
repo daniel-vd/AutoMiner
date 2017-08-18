@@ -33,7 +33,6 @@ public class VerticalMiner {
 	public VerticalMiner (Player player, Block targetBlock, int length) {
 		//We don't need a blockface because it must always be UP
 		
-		@SuppressWarnings("unused")
 		PlayerMiner playerMiner = new PlayerMiner();
 		
 		mainBlock = targetBlock;

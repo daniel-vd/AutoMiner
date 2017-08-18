@@ -36,13 +36,6 @@ public class AutoMiner extends JavaPlugin implements CommandExecutor {
 		
 		new Metrics(this);
 		
-
-		if(getServer().getPluginManager().getPlugin("TransportPipes") != null) {
-			console.sendMessage(ChatColor.RED + "pipes is on");
-		} else {
-			console.sendMessage(ChatColor.RED + "pipes is off");
-		}
-		
 		//Show some text in console
         getServer().getScheduler().runTaskLaterAsynchronously(this, new Runnable() {
             public void run() {
