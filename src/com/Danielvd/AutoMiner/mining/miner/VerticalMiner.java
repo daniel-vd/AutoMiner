@@ -1,8 +1,11 @@
 package com.Danielvd.AutoMiner.mining.miner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -24,18 +27,21 @@ public class VerticalMiner {
 	
 	BlockFace additionalBlockFace1;
 	BlockFace additionalBlockFace2;
+	BlockFace face = BlockFace.DOWN;
 	
 	int id;
 	int timesRan = 0;
 	
 	boolean run = true;
 	
-	public VerticalMiner (Player player, Block targetBlock, int length) {
+	List<Block> blocks2 = new ArrayList<Block>();
+	
+	public VerticalMiner (Player player, List<Block> blocks, int length) {
 		//We don't need a blockface because it must always be UP
 		
 		PlayerMiner playerMiner = new PlayerMiner();
 		
-		mainBlock = targetBlock;
+		mainBlock = blocks.get(0).getRelative(BlockFace.DOWN);
 		
 		//Place chests
 		new LootStorage(mainBlock, BlockFace.UP, player, true);
@@ -113,6 +119,35 @@ public class VerticalMiner {
 	            		
 	            	block.setType(Material.AIR);
             	}
+            	
+            	Location loc = null;//TODO temporary shitty variable;
+            	
+            	if (blocks.isEmpty()) {
+            		for (Block tempBlock : blocks2) {
+            			blocks.add(tempBlock);
+            		}
+            	}
+            	
+            	blocks2.clear();
+            	
+            	//Move miner blocks
+            	for (Block minerBlock : blocks) {
+					if (minerBlock.getType() == Material.IRON_BLOCK) {
+						minerBlock.setType(Material.AIR);
+						loc = minerBlock.getLocation().add(0, -1, 0);
+						loc.getBlock().setType(Material.IRON_BLOCK);
+					} else {
+						//Block is wood
+						minerBlock.setType(Material.AIR);
+						loc = minerBlock.getLocation().add(0, -1, 0);
+						loc.getBlock().setType(Material.WOOD);
+					}
+					//Add blocks to temp list
+					blocks2.add(loc.getBlock());
+            	}
+            	
+            	blocks.clear();
+            	
             }
 		}, 0L, 20L); //20 ticks = 1 second between every run		
 	}
