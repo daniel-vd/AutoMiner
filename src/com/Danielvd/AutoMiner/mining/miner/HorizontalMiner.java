@@ -1,8 +1,12 @@
 package com.Danielvd.AutoMiner.mining.miner;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -25,15 +29,22 @@ public class HorizontalMiner {
 	Block additionalBlock2;
 	Block mainBlock;
 	
+	List<Block> blocks2 = new ArrayList<Block>();
+	
 	int id;
 	int timesRan = 0;
 	
 	boolean run = true;
 	
-	public HorizontalMiner (Player player, Block targetBlock, BlockFace face, int length) {
+	Block targetBlock;
+	Block block2, block3, block4, block5, block6;
+	
+	public HorizontalMiner (Player player, List<Block> blocks, BlockFace face, int length) {
 		PlayerMiner playerMiner = new PlayerMiner();
 		
-		mainBlock = targetBlock;
+		targetBlock = blocks.get(0);
+		
+		mainBlock = targetBlock.getRelative(face);
 		
 		//Determine the two side blocks
 		if (face == BlockFace.NORTH || face == BlockFace.SOUTH) {
@@ -105,7 +116,7 @@ public class HorizontalMiner {
 	            			break;
 	            		case 10:
 	                    	mainBlock = mainBlock.getRelative(face);
-	            			break;
+	                    	break;
 	            	}
 	            	
 	            	if (block.getType() == Material.BEDROCK) {
@@ -115,11 +126,81 @@ public class HorizontalMiner {
 	            	}
 	            		
 	            	Collection<ItemStack> drops = block.getDrops();
-	            		
+	            	
 	            	new LootStorage(drops, player);
-	            		
-	            	block.setType(Material.AIR);
+	            	
+            		
+            	block.setType(Material.AIR);
+
             	}
+            	           	
+            	Location loc = null;//TODO temporary shitty variable;
+            	
+            	if (blocks.isEmpty()) {
+            		for (Block tempBlock : blocks2) {
+            			blocks.add(tempBlock);
+            		}
+            	}
+            	
+            	blocks2.clear();
+            	
+            	//Move miner blocks
+            	for (Block minerBlock : blocks) {
+						if (face == BlockFace.EAST) {
+							if (minerBlock.getType() == Material.IRON_BLOCK) {
+								minerBlock.setType(Material.AIR);
+								loc = minerBlock.getLocation().add(1, 0, 0);
+								loc.getBlock().setType(Material.IRON_BLOCK);
+							} else {
+							//Block is wood
+							minerBlock.setType(Material.AIR);
+							loc = minerBlock.getLocation().add(1, 0, 0);
+							loc.getBlock().setType(Material.WOOD);
+							}
+						} else if (face == BlockFace.NORTH) {
+							if (minerBlock.getType() == Material.IRON_BLOCK) {
+								minerBlock.setType(Material.AIR);
+								loc = minerBlock.getLocation().add(0, 0, -1);
+								loc.getBlock().setType(Material.IRON_BLOCK);
+							} else {
+							//Block is wood
+							minerBlock.setType(Material.AIR);
+							loc = minerBlock.getLocation().add(0, 0, -1);
+							loc.getBlock().setType(Material.WOOD);
+							}
+						} else if (face == BlockFace.SOUTH) {
+							if (minerBlock.getType() == Material.IRON_BLOCK) {
+								minerBlock.setType(Material.AIR);
+								loc = minerBlock.getLocation().add(0, 0, 1);
+								loc.getBlock().setType(Material.IRON_BLOCK);
+							} else {
+							//Block is wood
+							minerBlock.setType(Material.AIR);
+							loc = minerBlock.getLocation().add(0, 0, 1);
+							loc.getBlock().setType(Material.WOOD);
+							}
+						} else if (face == BlockFace.WEST) {
+							if (minerBlock.getType() == Material.IRON_BLOCK) {
+								minerBlock.setType(Material.AIR);
+								loc = minerBlock.getLocation().add(-1, 0, 0);
+								loc.getBlock().setType(Material.IRON_BLOCK);
+							} else {
+							//Block is wood
+							minerBlock.setType(Material.AIR);
+							loc = minerBlock.getLocation().add(-1, 0, 0);
+							loc.getBlock().setType(Material.WOOD);
+							}
+						} else {
+							player.sendMessage(ChatColor.RED + "Something went wrong, please rejoin or restart the server.");
+							break;
+						}
+            		
+            		blocks2.add(loc.getBlock());
+            		
+            	}
+            	
+            	blocks.clear();
+            	
             }
 		}, 0L, 20L); //20 ticks = 1 second between every run
 	}
